@@ -57,7 +57,7 @@ def test_honey_attempt_contain_only_the_eligible_application_session() -> None:
         db.add(DeviceRecord(id=device_id, trust_level="UNKNOWN"))
         db.add(SessionRecord(id=session_id, identity_id=identity_id, device_id=device_id, started_at=datetime.now(UTC), last_seen=datetime.now(UTC), risk_score=82, intent="CREDENTIAL_HUNTING", intent_confidence=.91, status="DECEPTION_ELIGIBLE", features={}, evidence=[]))
         db.commit()
-    headers = {"X-HyperProtection-Session": session_id}
+    headers = {"X-CyberBug-Session": session_id}
     decoy = client.get("/admin/credentials", headers=headers)
     assert decoy.status_code == 200
     assert decoy.json()["route"] == "DECOY"
