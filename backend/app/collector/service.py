@@ -1,4 +1,4 @@
-"""Windows-only local/WEC collector that sends normalized metadata to HyperProtection."""
+"""Windows-only local/WEC collector that sends normalized metadata to CyberBug."""
 
 from __future__ import annotations
 
@@ -60,7 +60,7 @@ class BackendEventClient:
     def heartbeat(self, collector_id: str, source: str, submitted: int, skipped: int) -> bool:
         headers = {"Content-Type": "application/json"}
         if self.token:
-            headers["X-HyperProtection-Collector-Token"] = self.token
+            headers["X-CyberBug-Collector-Token"] = self.token
         body = json.dumps({"collector_id": collector_id, "source": source, "submitted": submitted, "skipped": skipped}).encode("utf-8")
         try:
             with urlopen(Request(self.endpoint.replace("/api/v1/events", "/api/v1/collectors/heartbeat"), data=body, headers=headers, method="POST"), timeout=10) as response:
@@ -71,7 +71,7 @@ class BackendEventClient:
     def submit(self, event: NormalizedEvent) -> bool:
         headers = {"Content-Type": "application/json"}
         if self.token:
-            headers["X-HyperProtection-Collector-Token"] = self.token
+            headers["X-CyberBug-Collector-Token"] = self.token
         request = Request(self.endpoint, data=event.model_dump_json().encode("utf-8"), headers=headers, method="POST")
         try:
             with urlopen(request, timeout=10) as response:  # noqa: S310 -- endpoint is explicitly configured by the operator
@@ -103,22 +103,22 @@ def collect_once(*, source: str, max_events: int, state: CollectorState, client:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Collect authorized Windows Event Log metadata for HyperProtection.")
+    parser = argparse.ArgumentParser(description="Collect authorized Windows Event Log metadata for CyberBug.")
     parser.add_argument("--source", choices=("security", "forwarded"), default="security")
-    parser.add_argument("--endpoint", default=os.environ.get("HYPERPROTECTION_API_URL", "http://127.0.0.1:8000"))
+    parser.add_argument("--endpoint", default=os.environ.get("CYBERBUG_API_URL", "http://127.0.0.1:8000"))
     parser.add_argument("--interval", type=int, default=30, help="Polling interval in seconds; use 0 for one pass.")
     parser.add_argument("--max-events", type=int, default=100)
-    parser.add_argument("--collector-id", default=os.environ.get("HYPERPROTECTION_COLLECTOR_ID", platform.node() or "windows-collector"))
-    parser.add_argument("--state-file", type=Path, default=Path(os.environ.get("PROGRAMDATA", ".")) / "HyperProtection" / "collector-state.json")
+    parser.add_argument("--collector-id", default=os.environ.get("CYBERBUG_COLLECTOR_ID", platform.node() or "windows-collector"))
+    parser.add_argument("--state-file", type=Path, default=Path(os.environ.get("PROGRAMDATA", ".")) / "CyberBug" / "collector-state.json")
     args = parser.parse_args()
     if platform.system() != "Windows":
         raise SystemExit("The Windows Event Log collector must run on Windows.")
     state = CollectorState.load(args.state_file)
-    client = BackendEventClient(args.endpoint, token=os.environ.get("HYPERPROTECTION_COLLECTOR_TOKEN"))
+    client = BackendEventClient(args.endpoint, token=os.environ.get("CYBERBUG_COLLECTOR_TOKEN"))
     pseudonymizer = Pseudonymizer(settings.pseudonymization_secret)
     while True:
         submitted, skipped = collect_once(source=args.source, max_events=args.max_events, state=state, client=client, pseudonymizer=pseudonymizer)
-        print(f"HyperProtection collector: submitted={submitted} skipped={skipped}")
+        print(f"CyberBug collector: submitted={submitted} skipped={skipped}")
         client.heartbeat(args.collector_id, args.source, submitted, skipped)
         if args.interval <= 0:
             return
