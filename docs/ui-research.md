@@ -4,7 +4,7 @@ This prototype should feel like a security-operational workspace, not a reportin
 
 ## Research applied
 
-- [Material Design 3](https://m3.material.io/) treats design as an adaptable system of tokens and components rather than a fixed visual theme. HP-HyperProtection uses semantic surface, outline, primary-container, and state tokens so light and dark themes retain meaning without duplicating components.
+- [Material Design 3](https://m3.material.io/) treats design as an adaptable system of tokens and components rather than a fixed visual theme. CyberBug uses semantic surface, outline, primary-container, and state tokens so light and dark themes retain meaning without duplicating components.
 - [Material interaction states](https://m3.material.io/foundations/interaction/states/overview) calls for consistent enabled, hover, pressed, and focused states. Console navigation, controls, rows, and buttons have keyboard focus treatment and clear selected/active states.
 - Material's [canonical layouts](https://m3.material.io/foundations/layout/canonical-examples/overview) describe distinct compact, medium, and expanded arrangements. The console uses a desktop rail, an off-canvas compact navigation drawer, and single-column investigation panels when horizontal space falls away.
 - The [USWDS table guidance](https://designsystem.digital.gov/components/table/) supports semantic header rows, short labels, predictable values, monospace numeric data, and either scrolling or stacking at narrow widths. The investigation table keeps column semantics and becomes horizontally scrollable on small screens instead of compressing values into illegibility.
