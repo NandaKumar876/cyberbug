@@ -34,7 +34,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="HP-HyperProtection API", version="0.2.0", lifespan=lifespan)
+app = FastAPI(title="CyberBug API", version="0.2.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 app.include_router(corporate_router)
 
@@ -57,8 +57,8 @@ def collectors() -> list[dict[str, object]]:
 
 
 @app.post("/api/v1/collectors/heartbeat")
-def collector_heartbeat(payload: dict[str, object], x_hyperprotection_collector_token: str | None = Header(default=None)) -> dict[str, object]:
-    if settings.collector_token and x_hyperprotection_collector_token != settings.collector_token:
+def collector_heartbeat(payload: dict[str, object], x_cyberbug_collector_token: str | None = Header(default=None)) -> dict[str, object]:
+    if settings.collector_token and x_cyberbug_collector_token != settings.collector_token:
         raise HTTPException(status_code=401, detail="Valid collector token required")
     collector_id = str(payload.get("collector_id", "unknown"))
     source = str(payload.get("source", "security"))
@@ -147,12 +147,12 @@ def traffic(limit: int = 100, db: Session = Depends(get_ready_db)) -> list[dict[
 
 
 @app.post("/api/v1/events", response_model=SessionDetail, status_code=201)
-async def ingest_normalized_event(event: NormalizedEvent, x_hyperprotection_collector_token: str | None = Header(default=None), x_hyperprotection_source_ip: str | None = Header(default=None), db: Session = Depends(get_ready_db)) -> SessionDetail:
+async def ingest_normalized_event(event: NormalizedEvent, x_cyberbug_collector_token: str | None = Header(default=None), x_cyberbug_source_ip: str | None = Header(default=None), db: Session = Depends(get_ready_db)) -> SessionDetail:
     """Ingestion boundary for real normalized Windows metadata and approved collectors."""
-    if settings.collector_token and x_hyperprotection_collector_token != settings.collector_token:
+    if settings.collector_token and x_cyberbug_collector_token != settings.collector_token:
         raise HTTPException(status_code=401, detail="Valid collector token required")
-    if x_hyperprotection_source_ip:
-        event = event.model_copy(update={"metadata": {**event.metadata, "source_ip": x_hyperprotection_source_ip}})
+    if x_cyberbug_source_ip:
+        event = event.model_copy(update={"metadata": {**event.metadata, "source_ip": x_cyberbug_source_ip}})
     try:
         session = ingest_event(db, event)
     except ValueError as error:
