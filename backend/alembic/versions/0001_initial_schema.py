@@ -1,4 +1,4 @@
-"""Initial HyperProtection storage schema.
+"""Initial CyberBug storage schema.
 
 Revision ID: 0001_initial_schema
 Revises:
