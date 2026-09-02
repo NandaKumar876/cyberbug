@@ -1,73 +1,88 @@
-# HyperProtection
+# CyberBug
 
-HyperProtection is a Windows-focused, privacy-conscious SOC platform for detecting compromised accounts and insider-threat behavior after authentication.
+CyberBug is an AI-based cybersecurity system for detecting cyber threats in unidirectional IP traffic. It operates through passive observation — no probes, no handshakes, no mitigation commands back into the protected network.
 
 It evaluates:
 
 ```text
-Identity × Session × Device × Resource × Sequence
+Traffic × Behavior × Baseline × AI Detection × Risk Scoring
 ```
 
-The system detects behavioral inconsistency; it does not claim perfect physical-human attribution or permanently label an employee as malicious.
+The system observes, analyzes, detects, explains, and alerts — but never interferes with the protected network.
 
 ## System design
 
 ```text
-Windows endpoints
-  └─ Security logs / ETW / optional Sysmon
-       └─ local collector or WEF/WEC ForwardedEvents
-            └─ HTTPS normalized events + collector token
-                 └─ FastAPI control plane
-                      ├─ privacy + session correlation
-                      ├─ rolling features + personal/peer baselines
-                      ├─ rules + Isolation Forest + sequence memory
-                      ├─ intent + risk composition
-                      ├─ SQLAlchemy SQLite/PostgreSQL persistence
-                      └─ WebSocket events/risk/incidents
-                           └─ React SOC console
-
-Protected corporate request
-  └─ policy gateway
-       ├─ real resource
-       └─ synthetic decoy (only risk + intent + confidence + no override)
+Protected Network (Servers, Applications, Network Devices)
+  └─ One-Way IP Traffic (No Return Path)
+       └─ Passive Traffic Monitor
+            └─ Traffic/Flow Processing
+                 └─ Feature Extraction
+                      ├─ Normal Behaviour Baseline
+                      ├─ AI Detection Engine (Hybrid)
+                      │   ├─ Rule Engine
+                      │   ├─ Machine Learning Models
+                      │   └─ Anomaly Detection
+                      ├─ Threat Detection & Classification
+                      ├─ Threat Behaviour Fingerprint (DNA)
+                      ├─ Explainable Evidence
+                      └─ Risk & Confidence Scoring
+                           ├─ Alert Correlation
+                           ├─ Attack Story / Timeline
+                           ├─ Incident Management
+                           ├─ Response Recommendation (Advisory Only)
+                           └─ SOC Dashboard
+                                └─ Security Analyst (Human-in-the-Loop)
+                                     └─ Feedback Loop
 ```
 
 ### Detection flow
 
 ```text
-AUTH_SUCCESS → session/device correlation → rolling features
-→ personal baseline + peer baseline → rules/ML/sequence/drift
-→ explainable risk + intent confidence → monitor or respond
-→ decoy evidence → incident → application-session-only containment
+Traffic Capture → Flow Processing → Feature Extraction
+→ Normal Baseline Comparison → AI Detection (Rules + ML + Anomaly)
+→ Threat Classification → Threat DNA Fingerprint
+→ Explainable Evidence → Risk & Confidence Scoring
+→ Alert Correlation → Attack Story → Incident → Advisory Response
+→ SOC Dashboard → Analyst Review → Feedback Loop
 ```
 
-High anomaly alone never activates deception. Approved bulk operations, maintenance windows, SOC exceptions, and strong reauthentication can suppress deception while monitoring continues.
+Hard constraints: No traffic sent back. No probes or scans. No handshakes. No mitigation commands across the ingest path.
 
-## Capabilities
+## Key Capabilities
 
-- Windows Security and ForwardedEvents ingestion with typed normalized events
-- Pseudonymous identity analysis and privacy boundary enforcement
-- Personal/peer baselines with robust statistics and poisoning safeguards
-- Rolling features, within-session drift, sequence memory, explainable rules, intent, and Isolation Forest scoring
-- Controlled corporate routes: `/dashboard`, `/reports`, `/admin`, `/files`, `/export`
-- Synthetic decoys, honey-credential evidence, incident creation, and session-only containment
-- SQLite development persistence, PostgreSQL/Alembic deployment path
-- WebSocket live streams: `/ws/events`, `/ws/risk`, `/ws/incidents`
-- Live device and traffic metadata APIs: `/api/v1/devices`, `/api/v1/traffic`
+- Works in One-Way Environments
+- AI + Rules + Anomaly (Hybrid)
+- Adaptive Baseline per Host/Network
+- Threat Behaviour Fingerprint (DNA)
+- Explainable Detection
+- Alert Correlation & Attack Story
+- Risk-Based Prioritization
+- Next-Stage Risk Estimation
+- Advisory Response (No Active Control)
+- Human-in-the-Loop Feedback
+
+## Threat Detection
+
+Supported threat types:
+- DDoS / Protocol Flood
+- C2 Beaconing
+- DGA Activity
+- DNS Tunnelling
+- Scanning Activity
+- Other Anomalies
 
 ## Privacy boundary
 
-HyperProtection does not collect keystrokes, passwords, screenshots, screen recordings, webcam/microphone data, personal chats, or document contents. It collects security metadata such as authentication events, devices, sessions, resource categories, target systems, privilege activity, access frequency, source IP metadata, and event sequences.
-
-The policy gateway is the enforcement point. Arbitrary Windows traffic cannot be transparently redirected, and decoys never contain real corporate data.
+CyberBug does not collect keystrokes, passwords, screenshots, screen recordings, webcam/microphone data, personal chats, or document contents. It collects security metadata such as authentication events, devices, sessions, resource categories, target systems, privilege activity, access frequency, source IP metadata, and event sequences.
 
 ## Local setup
 
 Requirements: Python 3.12+, Node.js 20+, npm.
 
 ```bash
-git clone https://github.com/thamothara7/HP-HyperProtection.git
-cd HP-HyperProtection/backend
+git clone https://github.com/NandaKumar876/cyberbug.git
+cd cyberbug/backend
 python3 -m pip install -e '.[dev]'
 python3 -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
@@ -75,7 +90,7 @@ python3 -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 In another terminal:
 
 ```bash
-cd HP-HyperProtection/frontend
+cd cyberbug/frontend
 npm install
 npm run dev
 ```
@@ -117,7 +132,7 @@ Test-NetConnection CONTROL_PLANE_IP -Port 8000
 Invoke-WebRequest http://CONTROL_PLANE_IP:8000/health
 ```
 
-Do not expose port 8000 to the public internet. Use a private LAN/VPN and configure `HYPERPROTECTION_COLLECTOR_TOKEN` on both backend and collector when authentication is enabled.
+Do not expose port 8000 to the public internet. Use a private LAN/VPN and configure `CYBERBUG_COLLECTOR_TOKEN` on both backend and collector when authentication is enabled.
 
 ## Windows collector
 
@@ -125,8 +140,8 @@ Endpoint collection is Windows-only because it uses Windows Security Event Logs,
 
 ```powershell
 cd backend
-$env:HYPERPROTECTION_API_URL="http://CONTROL_PLANE_IP:8000"
-$env:HYPERPROTECTION_COLLECTOR_TOKEN="replace-with-a-random-secret"
+$env:CYBERBUG_API_URL="http://CONTROL_PLANE_IP:8000"
+$env:CYBERBUG_COLLECTOR_TOKEN="replace-with-a-random-secret"
 python -m app.collector.service --source security --endpoint http://CONTROL_PLANE_IP:8000 --collector-id MGR-PC --interval 5
 ```
 
@@ -151,7 +166,7 @@ Collector liveness: `GET /api/v1/collectors`.
 | Identities/baselines | `/api/v1/identities`, `/api/v1/identities/{id}/baseline` |
 | Incidents | `/api/v1/incidents`, `/api/v1/incidents/{id}` |
 | Deception | `/api/v1/deception/resources`, `/sessions`, `/interactions` |
-| Corporate app | `/dashboard`, `/reports`, `/admin`, `/files/...`, `/export` with `X-HyperProtection-Session` |
+| Corporate app | `/dashboard`, `/reports`, `/admin`, `/files/...`, `/export` with `X-CyberBug-Session` |
 | Simulation | `/api/v1/simulation/scenarios`, `POST /run`, `POST /reset` |
 | WebSockets | `/ws/events`, `/ws/risk`, `/ws/incidents` |
 
