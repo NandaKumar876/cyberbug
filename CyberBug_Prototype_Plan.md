@@ -1,8 +1,8 @@
-# HyperProtection — Windows-Only Insider Threat Detection & Adaptive Deception Prototype
+﻿# CyberBug â€” Windows-Only Insider Threat Detection & Adaptive Deception Prototype
 
 ## 1. Project Summary
 
-**HyperProtection** is a Windows-focused, privacy-conscious insider-threat and compromised-account detection prototype.
+**CyberBug** is a Windows-focused, privacy-conscious insider-threat and compromised-account detection prototype.
 
 The system is designed for a realistic enterprise scenario where an attacker or malicious employee may operate using **valid corporate credentials**. Traditional authentication can succeed because the username and password are correct, so the system continuously evaluates whether the authenticated activity still looks consistent with the expected user, session, device context, role, and historical behavior.
 
@@ -113,14 +113,14 @@ The attacker uses those valid credentials from another corporate Windows machine
 ```text
 Identity: Alice / Manager
 Device: MGR-PC
-Typical working hours: 09:00–18:00
+Typical working hours: 09:00â€“18:00
 Typical resources:
 - Finance dashboard
 - Reports
 - Management portal
 
 Typical behavior:
-- 5–30 files/day
+- 5â€“30 files/day
 - Rare SSH activity
 - Rare server enumeration
 - Rare privilege-related actions
@@ -153,19 +153,19 @@ The system does not immediately say:
 It instead evaluates:
 
 ```text
-Identity × Session × Device Context
+Identity Ã— Session Ã— Device Context
 ```
 
 Example:
 
 ```text
 Alice
-│
-├── Session S18 / MGR-PC
-│   Risk: 8
-│   Status: Normal
-│
-└── Session S92 / EMP-PC
+â”‚
+â”œâ”€â”€ Session S18 / MGR-PC
+â”‚   Risk: 8
+â”‚   Status: Normal
+â”‚
+â””â”€â”€ Session S92 / EMP-PC
     Risk: 84
     Status: High Risk
 ```
@@ -205,7 +205,7 @@ User Risk = 85
 Maintain:
 
 ```text
-user × session × device-context
+user Ã— session Ã— device-context
 ```
 
 The user can still have a long-term aggregate profile, but containment decisions should primarily operate at the suspicious session/context level.
@@ -228,7 +228,7 @@ may not exist.
 Therefore the model compares:
 
 ```text
-Current 5–10 minute window
+Current 5â€“10 minute window
 
 against
 
@@ -242,12 +242,12 @@ The user's long-term baseline
 Example:
 
 ```text
-09:00–10:30
+09:00â€“10:30
 Reports
 Finance dashboard
 3 documents
 
-10:31–10:36
+10:31â€“10:36
 14 new hosts
 SSH attempts
 Admin discovery
@@ -295,13 +295,13 @@ An employee working late during a deadline may generate unusual behavior.
 Therefore:
 
 ```text
-Anomaly → Additional evidence collection
+Anomaly â†’ Additional evidence collection
 ```
 
 not:
 
 ```text
-Anomaly → Honeypot
+Anomaly â†’ Honeypot
 ```
 
 ---
@@ -379,7 +379,7 @@ Example:
 risk < 30
     normal baseline learning
 
-risk 30–50
+risk 30â€“50
     heavily reduce baseline learning
 
 risk > 50
@@ -402,89 +402,89 @@ If the gap moves rapidly, generate a drift warning instead of silently adapting.
 
 ```text
                       WINDOWS CORPORATE LAB
-                               │
-             ┌─────────────────┼─────────────────┐
-             │                 │                 │
+                               â”‚
+             â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+             â”‚                 â”‚                 â”‚
           MGR-PC            EMP-PC          CORP-SRV
-             │                 │                 │
-             └─────────────────┼─────────────────┘
-                               │
+             â”‚                 â”‚                 â”‚
+             â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                               â”‚
                       Windows Security Events
-                               │
-                               ▼
-                    ┌────────────────────┐
-                    │ WEF / WEC          │
-                    │ Windows Collector  │
-                    └─────────┬──────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ Python Collector   │
-                    │ pywin32            │
-                    └─────────┬──────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ Event Normalizer   │
-                    └─────────┬──────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ Privacy Layer      │
-                    │ HMAC IDs           │
-                    │ Data minimization  │
-                    └─────────┬──────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ Session Correlator │
-                    │ user × session ×   │
-                    │ device-context     │
-                    └─────────┬──────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ Feature Engine     │
-                    │ 5m / 1h / 24h      │
-                    └─────────┬──────────┘
-                              │
-                 ┌────────────┴────────────┐
-                 ▼                         ▼
+                               â”‚
+                               â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ WEF / WEC          â”‚
+                    â”‚ Windows Collector  â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ Python Collector   â”‚
+                    â”‚ pywin32            â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ Event Normalizer   â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ Privacy Layer      â”‚
+                    â”‚ HMAC IDs           â”‚
+                    â”‚ Data minimization  â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ Session Correlator â”‚
+                    â”‚ user Ã— session Ã—   â”‚
+                    â”‚ device-context     â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ Feature Engine     â”‚
+                    â”‚ 5m / 1h / 24h      â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â”‚
+                 â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                 â–¼                         â–¼
         Personal Baseline            Peer Baseline
-                 │                         │
-                 └────────────┬────────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ ML Anomaly Engine  │
-                    │ Isolation Forest   │
-                    └─────────┬──────────┘
-                              │
-                 ┌────────────┼────────────┐
-                 ▼            ▼            ▼
+                 â”‚                         â”‚
+                 â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ ML Anomaly Engine  â”‚
+                    â”‚ Isolation Forest   â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â”‚
+                 â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                 â–¼            â–¼            â–¼
             Rule Engine   Sequence     Context
                           Engine       Engine
-                 │            │            │
-                 └────────────┼────────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ Dynamic Risk       │
-                    │ Engine             │
-                    └─────────┬──────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ Intent Engine      │
-                    └─────────┬──────────┘
-                              ▼
-                    ┌────────────────────┐
-                    │ Policy Engine      │
-                    └─────────┬──────────┘
-                              │
-                   ┌──────────┴──────────┐
-                   ▼                     ▼
+                 â”‚            â”‚            â”‚
+                 â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ Dynamic Risk       â”‚
+                    â”‚ Engine             â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ Intent Engine      â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â–¼
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â”‚ Policy Engine      â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                              â”‚
+                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                   â–¼                     â–¼
               Real Resource          Decoy Resource
-                                           │
-                                           ▼
+                                           â”‚
+                                           â–¼
                                 Decoy interaction events
-                                           │
-                                           ▼
+                                           â”‚
+                                           â–¼
                                   Confidence increases
-                                           │
-                                           ▼
+                                           â”‚
+                                           â–¼
                                 Session containment
 ```
 
@@ -559,11 +559,11 @@ Use:
 
 ```text
 Windows Event Log
-      ↓
+      â†“
 Windows Event Forwarding
-      ↓
+      â†“
 Windows Event Collector
-      ↓
+      â†“
 Python
 ```
 
@@ -761,7 +761,7 @@ risk 84
 
 ```text
 USR-A12
-    ↓
+    â†“
 Alice Smith
 ```
 
@@ -848,19 +848,19 @@ Example:
 USR-A12
 
 Working hours:
-09:00–18:00
+09:00â€“18:00
 
 Known devices:
 MGR-PC
 
 Typical target count/hour:
-2–5
+2â€“5
 
 Typical failed logins/hour:
-0–1
+0â€“1
 
 Typical sensitive resource reads/day:
-10–25
+10â€“25
 
 Typical SSH activity:
 Almost none
@@ -878,11 +878,11 @@ Use:
 
 ```text
 Organization
-    ↓
+    â†“
 Department
-    ↓
+    â†“
 Role
-    ↓
+    â†“
 Individual
 ```
 
@@ -1009,7 +1009,7 @@ feature vector
 Output:
 
 ```text
-anomaly score 0.0–1.0
+anomaly score 0.0â€“1.0
 ```
 
 Do not treat:
@@ -1038,20 +1038,20 @@ Example normal sequence:
 
 ```text
 LOGIN
-→ DASHBOARD
-→ REPORT
-→ LOGOUT
+â†’ DASHBOARD
+â†’ REPORT
+â†’ LOGOUT
 ```
 
 Suspicious sequence:
 
 ```text
 LOGIN
-→ SERVER_DISCOVERY
-→ REMOTE_ACCESS
-→ ADMIN_RESOURCE
-→ CREDENTIAL_RESOURCE
-→ EXPORT
+â†’ SERVER_DISCOVERY
+â†’ REMOTE_ACCESS
+â†’ ADMIN_RESOURCE
+â†’ CREDENTIAL_RESOURCE
+â†’ EXPORT
 ```
 
 Implement V1 using:
@@ -1133,7 +1133,7 @@ repeated remote access attempts
 +
 unusual service targeting
 
-→ LATERAL_MOVEMENT
+â†’ LATERAL_MOVEMENT
 ```
 
 Example:
@@ -1145,7 +1145,7 @@ credential-related resource access
 +
 explicit credential events
 
-→ CREDENTIAL_HUNTING
+â†’ CREDENTIAL_HUNTING
 ```
 
 Example:
@@ -1157,7 +1157,7 @@ large access volume
 +
 export endpoint
 
-→ EXFIL_ATTEMPT
+â†’ EXFIL_ATTEMPT
 ```
 
 Output:
@@ -1226,19 +1226,19 @@ For the prototype they are configurable and later calibrated from validation dat
 Suggested initial values:
 
 ```text
-0–30
+0â€“30
 NORMAL
 
-31–50
+31â€“50
 ELEVATED
 
-51–74
+51â€“74
 HIGH
 
-75–89
+75â€“89
 CRITICAL-CANDIDATE
 
-90–100
+90â€“100
 CRITICAL
 ```
 
@@ -1308,7 +1308,7 @@ Must remain analyst-approved in the prototype design.
 Never:
 
 ```text
-risk > 75 → decoy
+risk > 75 â†’ decoy
 ```
 
 Use:
@@ -1355,9 +1355,9 @@ Every sensitive request passes through:
 
 ```text
 Browser
-   ↓
+   â†“
 Policy Gateway
-   ↓
+   â†“
 Real or Decoy
 ```
 
@@ -1389,12 +1389,12 @@ Example:
 
 ```text
 Finance_2026/
-├── Forecast_Q1.xlsx
-├── Forecast_Q2.xlsx
-├── Acquisitions/
-│   └── confidential_target.csv
-└── Credentials/
-    └── legacy-service.json
+â”œâ”€â”€ Forecast_Q1.xlsx
+â”œâ”€â”€ Forecast_Q2.xlsx
+â”œâ”€â”€ Acquisitions/
+â”‚   â””â”€â”€ confidential_target.csv
+â””â”€â”€ Credentials/
+    â””â”€â”€ legacy-service.json
 ```
 
 ---
@@ -1703,113 +1703,113 @@ GET /simulation/scenarios
 # 34. Recommended Repository Structure
 
 ```text
-HyperProtection/
-│
-├── backend/
-│   ├── app/
-│   │   ├── main.py
-│   │   │
-│   │   ├── collector/
-│   │   │   ├── windows_events.py
-│   │   │   ├── forwarded_events.py
-│   │   │   └── parser.py
-│   │   │
-│   │   ├── normalization/
-│   │   │   └── event.py
-│   │   │
-│   │   ├── privacy/
-│   │   │   ├── pseudonymizer.py
-│   │   │   └── sanitizer.py
-│   │   │
-│   │   ├── sessions/
-│   │   │   ├── correlator.py
-│   │   │   └── drift.py
-│   │   │
-│   │   ├── features/
-│   │   │   ├── extractor.py
-│   │   │   └── rolling.py
-│   │   │
-│   │   ├── baseline/
-│   │   │   ├── personal.py
-│   │   │   ├── peer.py
-│   │   │   ├── robust_stats.py
-│   │   │   └── poisoning_guard.py
-│   │   │
-│   │   ├── ml/
-│   │   │   ├── isolation_forest.py
-│   │   │   ├── train.py
-│   │   │   └── inference.py
-│   │   │
-│   │   ├── detection/
-│   │   │   ├── rules.py
-│   │   │   ├── sequence.py
-│   │   │   └── intent.py
-│   │   │
-│   │   ├── risk/
-│   │   │   ├── engine.py
-│   │   │   └── thresholds.py
-│   │   │
-│   │   ├── policy/
-│   │   │   ├── engine.py
-│   │   │   └── overrides.py
-│   │   │
-│   │   ├── deception/
-│   │   │   ├── router.py
-│   │   │   ├── decoy_data.py
-│   │   │   └── evidence.py
-│   │   │
-│   │   ├── containment/
-│   │   │   └── session.py
-│   │   │
-│   │   ├── simulation/
-│   │   │   ├── normal.py
-│   │   │   ├── deadline.py
-│   │   │   ├── stolen_credentials.py
-│   │   │   ├── session_hijack.py
-│   │   │   └── low_and_slow.py
-│   │   │
-│   │   ├── api/
-│   │   │   ├── overview.py
-│   │   │   ├── sessions.py
-│   │   │   ├── identities.py
-│   │   │   ├── incidents.py
-│   │   │   ├── deception.py
-│   │   │   └── websocket.py
-│   │   │
-│   │   ├── db/
-│   │   │   ├── models.py
-│   │   │   ├── session.py
-│   │   │   └── migrations/
-│   │   │
-│   │   └── config.py
-│   │
-│   ├── tests/
-│   ├── models/
-│   ├── requirements.txt
-│   └── pyproject.toml
-│
-├── frontend/
-│   ├── src/
-│   │   ├── routes/
-│   │   ├── components/
-│   │   ├── features/
-│   │   │   ├── overview/
-│   │   │   ├── sessions/
-│   │   │   ├── identities/
-│   │   │   ├── incidents/
-│   │   │   ├── telemetry/
-│   │   │   ├── deception/
-│   │   │   └── simulation/
-│   │   ├── api/
-│   │   └── styles/
-│   └── package.json
-│
-├── docs/
-│   ├── architecture.md
-│   ├── threat-model.md
-│   └── demo-script.md
-│
-└── README.md
+CyberBug/
+â”‚
+â”œâ”€â”€ backend/
+â”‚   â”œâ”€â”€ app/
+â”‚   â”‚   â”œâ”€â”€ main.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ collector/
+â”‚   â”‚   â”‚   â”œâ”€â”€ windows_events.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ forwarded_events.py
+â”‚   â”‚   â”‚   â””â”€â”€ parser.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ normalization/
+â”‚   â”‚   â”‚   â””â”€â”€ event.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ privacy/
+â”‚   â”‚   â”‚   â”œâ”€â”€ pseudonymizer.py
+â”‚   â”‚   â”‚   â””â”€â”€ sanitizer.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ sessions/
+â”‚   â”‚   â”‚   â”œâ”€â”€ correlator.py
+â”‚   â”‚   â”‚   â””â”€â”€ drift.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ features/
+â”‚   â”‚   â”‚   â”œâ”€â”€ extractor.py
+â”‚   â”‚   â”‚   â””â”€â”€ rolling.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ baseline/
+â”‚   â”‚   â”‚   â”œâ”€â”€ personal.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ peer.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ robust_stats.py
+â”‚   â”‚   â”‚   â””â”€â”€ poisoning_guard.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ ml/
+â”‚   â”‚   â”‚   â”œâ”€â”€ isolation_forest.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ train.py
+â”‚   â”‚   â”‚   â””â”€â”€ inference.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ detection/
+â”‚   â”‚   â”‚   â”œâ”€â”€ rules.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ sequence.py
+â”‚   â”‚   â”‚   â””â”€â”€ intent.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ risk/
+â”‚   â”‚   â”‚   â”œâ”€â”€ engine.py
+â”‚   â”‚   â”‚   â””â”€â”€ thresholds.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ policy/
+â”‚   â”‚   â”‚   â”œâ”€â”€ engine.py
+â”‚   â”‚   â”‚   â””â”€â”€ overrides.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ deception/
+â”‚   â”‚   â”‚   â”œâ”€â”€ router.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ decoy_data.py
+â”‚   â”‚   â”‚   â””â”€â”€ evidence.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ containment/
+â”‚   â”‚   â”‚   â””â”€â”€ session.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ simulation/
+â”‚   â”‚   â”‚   â”œâ”€â”€ normal.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ deadline.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ stolen_credentials.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ session_hijack.py
+â”‚   â”‚   â”‚   â””â”€â”€ low_and_slow.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ api/
+â”‚   â”‚   â”‚   â”œâ”€â”€ overview.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ sessions.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ identities.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ incidents.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ deception.py
+â”‚   â”‚   â”‚   â””â”€â”€ websocket.py
+â”‚   â”‚   â”‚
+â”‚   â”‚   â”œâ”€â”€ db/
+â”‚   â”‚   â”‚   â”œâ”€â”€ models.py
+â”‚   â”‚   â”‚   â”œâ”€â”€ session.py
+â”‚   â”‚   â”‚   â””â”€â”€ migrations/
+â”‚   â”‚   â”‚
+â”‚   â”‚   â””â”€â”€ config.py
+â”‚   â”‚
+â”‚   â”œâ”€â”€ tests/
+â”‚   â”œâ”€â”€ models/
+â”‚   â”œâ”€â”€ requirements.txt
+â”‚   â””â”€â”€ pyproject.toml
+â”‚
+â”œâ”€â”€ frontend/
+â”‚   â”œâ”€â”€ src/
+â”‚   â”‚   â”œâ”€â”€ routes/
+â”‚   â”‚   â”œâ”€â”€ components/
+â”‚   â”‚   â”œâ”€â”€ features/
+â”‚   â”‚   â”‚   â”œâ”€â”€ overview/
+â”‚   â”‚   â”‚   â”œâ”€â”€ sessions/
+â”‚   â”‚   â”‚   â”œâ”€â”€ identities/
+â”‚   â”‚   â”‚   â”œâ”€â”€ incidents/
+â”‚   â”‚   â”‚   â”œâ”€â”€ telemetry/
+â”‚   â”‚   â”‚   â”œâ”€â”€ deception/
+â”‚   â”‚   â”‚   â””â”€â”€ simulation/
+â”‚   â”‚   â”œâ”€â”€ api/
+â”‚   â”‚   â””â”€â”€ styles/
+â”‚   â””â”€â”€ package.json
+â”‚
+â”œâ”€â”€ docs/
+â”‚   â”œâ”€â”€ architecture.md
+â”‚   â”œâ”€â”€ threat-model.md
+â”‚   â””â”€â”€ demo-script.md
+â”‚
+â””â”€â”€ README.md
 ```
 
 ---
@@ -1913,21 +1913,21 @@ Visual inspiration:
 Overview
 
 Investigate
-├── Sessions
-├── Identities
-└── Incidents
+â”œâ”€â”€ Sessions
+â”œâ”€â”€ Identities
+â””â”€â”€ Incidents
 
 Monitor
-├── Live Telemetry
-└── Baselines
+â”œâ”€â”€ Live Telemetry
+â””â”€â”€ Baselines
 
 Deception
-├── Active Decoys
-└── Interactions
+â”œâ”€â”€ Active Decoys
+â””â”€â”€ Interactions
 
 Manage
-├── Policies
-└── Settings
+â”œâ”€â”€ Policies
+â””â”€â”€ Settings
 
 Simulation
 ```
@@ -1943,13 +1943,13 @@ Main purpose:
 Suggested structure:
 
 ```text
-Security Overview                        LIVE ●
+Security Overview                        LIVE â—
 
 Active Sessions     Elevated     Critical
 126                 8            2
 
 
-Risk Activity — Last 24h
+Risk Activity â€” Last 24h
 
 [compact time-series chart]
 
@@ -1981,7 +1981,7 @@ WHY THIS SESSION IS RISKY
 
 Device context deviation        High
 Unseen server access            9 hosts
-SSH deviation                   8.2× baseline
+SSH deviation                   8.2Ã— baseline
 Privilege-resource attempts     4
 Sequence anomaly                0.89
 
@@ -2074,7 +2074,7 @@ Entered deception:
 
 Real Resource
 
-Never Exposed ✓
+Never Exposed âœ“
 ```
 
 ---
@@ -2092,11 +2092,11 @@ CRITICAL
 
 Evidence
 
-✓ Behavioral anomaly
-✓ Device-context anomaly
-✓ Rare attack sequence
-✓ Credential-hunting intent
-✓ Decoy interaction
+âœ“ Behavioral anomaly
+âœ“ Device-context anomaly
+âœ“ Rare attack sequence
+âœ“ Credential-hunting intent
+âœ“ Decoy interaction
 
 
 Affected Identity
@@ -2116,14 +2116,14 @@ Legitimate session unaffected
 # 45. Live Telemetry Screen
 
 ```text
-LIVE EVENTS                                      ● LIVE
+LIVE EVENTS                                      â— LIVE
 
 03:02:18 AUTH_SUCCESS      USR-A12 EMP-PC   success
 03:02:22 RESOURCE_ACCESS   USR-A12 FIN-01   success
 03:02:27 SERVER_DISCOVERY  USR-A12 CORP-NET
 03:02:29 AUTH_FAILURE      USR-A12 SRV-07   failed
 03:02:31 AUTH_FAILURE      USR-A12 SRV-08   failed
-03:02:33 RISK_CHANGED      SES-A817 42 → 58
+03:02:33 RISK_CHANGED      SES-A817 42 â†’ 58
 ```
 
 ---
@@ -2135,11 +2135,11 @@ Hackathon-safe deterministic scenarios:
 ```text
 Simulation Lab
 
-○ Normal manager activity
-○ Deadline bulk operation
-○ Stolen credential attack
-○ Session hijack
-○ Low-and-slow attack
+â—‹ Normal manager activity
+â—‹ Deadline bulk operation
+â—‹ Stolen credential attack
+â—‹ Session hijack
+â—‹ Low-and-slow attack
 
 [Run Scenario]
 ```
@@ -2152,7 +2152,7 @@ The dashboard reacts live.
 
 # 47. Required Demo Scenarios
 
-## Scenario A — Normal Employee
+## Scenario A â€” Normal Employee
 
 Expected:
 
@@ -2165,7 +2165,7 @@ No deception
 
 ---
 
-## Scenario B — Deadline-Day Legitimate Bulk Operation
+## Scenario B â€” Deadline-Day Legitimate Bulk Operation
 
 Example:
 
@@ -2185,47 +2185,47 @@ BUT
 
 approved work context exists
 
-→ no deception
-→ no hard block
+â†’ no deception
+â†’ no hard block
 ```
 
 This proves false-positive resistance.
 
 ---
 
-## Scenario C — Stolen Credentials
+## Scenario C â€” Stolen Credentials
 
 Expected flow:
 
 ```text
 Manager credentials
-        ↓
+        â†“
 EMP-PC login
-        ↓
+        â†“
 new device context
-        ↓
+        â†“
 risk rises slightly
-        ↓
+        â†“
 server discovery
-        ↓
+        â†“
 remote-access attempts
-        ↓
+        â†“
 admin-resource discovery
-        ↓
+        â†“
 credential hunting
-        ↓
+        â†“
 high risk + intent
-        ↓
+        â†“
 decoy resource
-        ↓
+        â†“
 honey credential interaction
-        ↓
+        â†“
 session containment
 ```
 
 ---
 
-## Scenario D — Session Hijack
+## Scenario D â€” Session Hijack
 
 Same:
 
@@ -2249,7 +2249,7 @@ This proves the design does not depend entirely on having a second session.
 
 ---
 
-## Scenario E — Low-and-Slow
+## Scenario E â€” Low-and-Slow
 
 Example:
 
@@ -2270,7 +2270,7 @@ BUT
 
 sequence memory remains
 
-→ rare attack progression accumulates
+â†’ rare attack progression accumulates
 ```
 
 This proves resistance to threshold gaming.
@@ -2290,7 +2290,7 @@ Recommended judge-facing flow:
 3. Login succeeds because credentials are valid.
 
 4. Device/context mismatch appears.
-   Risk 8 → 27.
+   Risk 8 â†’ 27.
 
 5. No blocking occurs.
 
@@ -2299,9 +2299,9 @@ Recommended judge-facing flow:
 7. ML anomaly score rises.
 
 8. Sequence engine observes:
-   LOGIN → DISCOVERY → REMOTE ACCESS → ADMIN
+   LOGIN â†’ DISCOVERY â†’ REMOTE ACCESS â†’ ADMIN
 
-9. Risk 27 → 68.
+9. Risk 27 â†’ 68.
 
 10. Still no deception.
 
@@ -2321,7 +2321,7 @@ Recommended judge-facing flow:
 
 16. Decoy evidence raises confidence.
 
-17. Risk 82 → 97.
+17. Risk 82 â†’ 97.
 
 18. Suspicious session is revoked.
 
@@ -2354,7 +2354,7 @@ It demonstrates:
 
 # 50. Implementation Phases
 
-## Phase 1 — Foundation
+## Phase 1 â€” Foundation
 
 Build:
 
@@ -2369,12 +2369,12 @@ Build:
 Goal:
 
 ```text
-backend ↔ frontend works
+backend â†” frontend works
 ```
 
 ---
 
-## Phase 2 — Simulation First
+## Phase 2 â€” Simulation First
 
 Build event simulator before Windows integration.
 
@@ -2390,22 +2390,22 @@ Goal:
 
 ```text
 synthetic event
-    ↓
+    â†“
 backend
-    ↓
+    â†“
 database
-    ↓
+    â†“
 live dashboard
 ```
 
 ---
 
-## Phase 3 — Session Correlation
+## Phase 3 â€” Session Correlation
 
 Implement:
 
 ```text
-identity × session × device-context
+identity Ã— session Ã— device-context
 ```
 
 Add:
@@ -2423,7 +2423,7 @@ multiple sessions for same identity
 
 ---
 
-## Phase 4 — Feature Engine
+## Phase 4 â€” Feature Engine
 
 Implement rolling feature windows.
 
@@ -2440,7 +2440,7 @@ Start with:
 
 ---
 
-## Phase 5 — Baselines
+## Phase 5 â€” Baselines
 
 Implement:
 
@@ -2452,7 +2452,7 @@ Implement:
 
 ---
 
-## Phase 6 — ML
+## Phase 6 â€” ML
 
 Train Isolation Forest on:
 
@@ -2469,7 +2469,7 @@ Do not make ML responsible for the final security decision.
 
 ---
 
-## Phase 7 — Rule Engine
+## Phase 7 â€” Rule Engine
 
 Implement deterministic evidence:
 
@@ -2482,7 +2482,7 @@ Implement deterministic evidence:
 
 ---
 
-## Phase 8 — Sequence Engine
+## Phase 8 â€” Sequence Engine
 
 Implement n-gram / transition tracking.
 
@@ -2490,7 +2490,7 @@ Score rare event sequences.
 
 ---
 
-## Phase 9 — Intent Engine
+## Phase 9 â€” Intent Engine
 
 Implement:
 
@@ -2509,7 +2509,7 @@ evidence
 
 ---
 
-## Phase 10 — Risk Engine
+## Phase 10 â€” Risk Engine
 
 Combine:
 
@@ -2525,14 +2525,14 @@ Combine:
 Generate:
 
 ```text
-risk 0–100
+risk 0â€“100
 ```
 
 Store every risk transition.
 
 ---
 
-## Phase 11 — Controlled Corporate App
+## Phase 11 â€” Controlled Corporate App
 
 Create real and protected resources.
 
@@ -2540,7 +2540,7 @@ Every sensitive request goes through policy evaluation.
 
 ---
 
-## Phase 12 — Deception
+## Phase 12 â€” Deception
 
 Implement static synthetic decoys.
 
@@ -2556,7 +2556,7 @@ no strong legitimate override
 
 ---
 
-## Phase 13 — Containment
+## Phase 13 â€” Containment
 
 Implement:
 
@@ -2568,7 +2568,7 @@ Do not automatically disable Windows accounts.
 
 ---
 
-## Phase 14 — Windows Event Integration
+## Phase 14 â€” Windows Event Integration
 
 Start with local Windows Security logs.
 
@@ -2578,9 +2578,9 @@ Then:
 MGR-PC
 EMP-PC
 CORP-SRV
-    ↓
+    â†“
 WEF
-    ↓
+    â†“
 SEC-SRV
 ```
 
@@ -2615,15 +2615,15 @@ Test:
 
 ```text
 event
-↓
+â†“
 session
-↓
+â†“
 features
-↓
+â†“
 risk
-↓
+â†“
 intent
-↓
+â†“
 policy
 ```
 
@@ -2646,7 +2646,7 @@ no malicious intent
 OR
 strong legitimate override
 
-→ no deception
+â†’ no deception
 ```
 
 ---
@@ -2662,7 +2662,7 @@ same session
 
 behavior changes sharply
 
-→ within-session drift triggers
+â†’ within-session drift triggers
 ```
 
 ---
@@ -2881,19 +2881,19 @@ The system should always be presented as:
 
 ```text
 PREVENT
-   ↓
+   â†“
 OBSERVE
-   ↓
+   â†“
 MODEL
-   ↓
+   â†“
 CORRELATE
-   ↓
+   â†“
 SCORE
-   ↓
+   â†“
 VERIFY INTENT
-   ↓
+   â†“
 DECEIVE WHEN SAFE
-   ↓
+   â†“
 CONTAIN THE SUSPICIOUS SESSION
 ```
 
@@ -2901,9 +2901,9 @@ Not:
 
 ```text
 High ML score
-   ↓
+   â†“
 Honeypot
-   ↓
+   â†“
 Block employee
 ```
 
@@ -2911,7 +2911,7 @@ Block employee
 
 # 58. One-Minute Project Explanation
 
-> HyperProtection is a privacy-conscious Windows security prototype for detecting insider threats and compromised employee accounts even when valid credentials are being used. Windows security telemetry is collected through native event logging and Windows Event Forwarding, normalized, pseudonymized, and correlated into user-session-device contexts. The system learns both personal and role-based behavior, uses Isolation Forest and robust statistical baselines to detect anomalies, and adds sequence analysis and explainable security rules to identify suspicious progression. A high anomaly score alone never triggers deception. The system first requires high contextual risk and evidence of an attack intent such as reconnaissance, credential hunting, lateral movement, or exfiltration. Only then can selected protected resources expose isolated synthetic decoys. If the suspicious context interacts with those decoys, confidence increases and only that session is contained, while legitimate sessions remain unaffected.
+> CyberBug is a privacy-conscious Windows security prototype for detecting insider threats and compromised employee accounts even when valid credentials are being used. Windows security telemetry is collected through native event logging and Windows Event Forwarding, normalized, pseudonymized, and correlated into user-session-device contexts. The system learns both personal and role-based behavior, uses Isolation Forest and robust statistical baselines to detect anomalies, and adds sequence analysis and explainable security rules to identify suspicious progression. A high anomaly score alone never triggers deception. The system first requires high contextual risk and evidence of an attack intent such as reconnaissance, credential hunting, lateral movement, or exfiltration. Only then can selected protected resources expose isolated synthetic decoys. If the suspicious context interacts with those decoys, confidence increases and only that session is contained, while legitimate sessions remain unaffected.
 
 ---
 
@@ -2974,24 +2974,25 @@ Build one highly convincing end-to-end Windows scenario:
 
 ```text
 Normal Manager
-      ↓
+      â†“
 Stolen Credentials
-      ↓
+      â†“
 Valid Login
-      ↓
+      â†“
 Behavioral Drift
-      ↓
+      â†“
 Explainable Risk Growth
-      ↓
+      â†“
 Attack Intent
-      ↓
+      â†“
 Controlled Decoy
-      ↓
+      â†“
 Additional Evidence
-      ↓
+      â†“
 Suspicious Session Containment
-      ↓
+      â†“
 Legitimate Session Continues
 ```
 
 That single scenario demonstrates the project's strongest technical ideas without overclaiming what the prototype can do.
+
