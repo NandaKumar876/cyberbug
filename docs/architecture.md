@@ -1,4 +1,4 @@
-# HP-HyperProtection — Stage 1 architecture
+# CyberBug — Stage 1 architecture
 
 ```text
 Synthetic scenario state
