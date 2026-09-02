@@ -1,1 +1,1 @@
-"""HP-HyperProtection application package."""
+"""CyberBug application package."""
