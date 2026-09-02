@@ -7,12 +7,12 @@ SQLite is the default local-development store. Use PostgreSQL for the final demo
 Install the PostgreSQL dependency and configure environment values before starting the API:
 
 ```powershell
-cd C:\HyperProtection\backend
+cd C:\CyberBug\backend
 py -m pip install -e ".[postgres]"
-$env:HYPERPROTECTION_DATABASE_URL = "postgresql+psycopg://hp_app:replace-me@SEC-SRV:5432/hyperprotection"
-$env:HYPERPROTECTION_AUTO_CREATE_SCHEMA = "false"
-$env:HYPERPROTECTION_SEED_DEMO_DATA = "false"
-$env:HYPERPROTECTION_PSEUDONYMIZATION_SECRET = "replace-with-a-long-random-secret"
+$env:CYBERBUG_DATABASE_URL = "postgresql+psycopg://cb_app:replace-me@SEC-SRV:5432/cyberbug"
+$env:CYBERBUG_AUTO_CREATE_SCHEMA = "false"
+$env:CYBERBUG_SEED_DEMO_DATA = "false"
+$env:CYBERBUG_PSEUDONYMIZATION_SECRET = "replace-with-a-long-random-secret"
 py -m alembic upgrade head
 py -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
@@ -30,7 +30,7 @@ Expected revision: `0001_initial_schema (head)`.
 For local migration verification without PostgreSQL:
 
 ```powershell
-$env:HYPERPROTECTION_DATABASE_URL = "sqlite:///C:/temp/hyperprotection-migration-test.db"
+$env:CYBERBUG_DATABASE_URL = "sqlite:///C:/temp/cyberbug-migration-test.db"
 py -m alembic upgrade head
 ```
 
