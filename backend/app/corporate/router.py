@@ -15,7 +15,7 @@ from app.deception.evidence import record_decoy_access, record_honey_credential_
 from app.policy.overrides import refresh_identity_override
 
 router = APIRouter(tags=["controlled-corporate-app"])
-SessionHeader = Annotated[str | None, Header(alias="X-HyperProtection-Session")]
+SessionHeader = Annotated[str | None, Header(alias="X-CyberBug-Session")]
 
 REAL_RESOURCES: dict[str, dict[str, str]] = {
     "/dashboard": {"title": "Corporate dashboard", "classification": "INTERNAL"},
@@ -38,7 +38,7 @@ class HoneyCredentialAttempt(BaseModel):
 
 def _session_or_401(db: Session, session_id: str | None) -> SessionRecord:
     if not session_id:
-        raise HTTPException(status_code=401, detail="X-HyperProtection-Session is required for controlled application access.")
+        raise HTTPException(status_code=401, detail="X-CyberBug-Session is required for controlled application access.")
     session = db.get(SessionRecord, session_id)
     if session is None:
         raise HTTPException(status_code=404, detail="Application session not found")
