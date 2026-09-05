@@ -1,4 +1,4 @@
-# CyberBug
+## CyberBug
 
 CyberBug is an AI-based cybersecurity system for detecting cyber threats in unidirectional IP traffic. It operates through passive observation — no probes, no handshakes, no mitigation commands back into the protected network.
 
