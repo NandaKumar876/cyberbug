@@ -1,6 +1,7 @@
-## CyberBug
+# CyberBug
 
-CyberBug is an AI-based cybersecurity system for detecting cyber threats in unidirectional IP traffic. It operates through passive observation — no probes, no handshakes, no mitigation commands back into the protected network.
+**CyberBug** — AI-driven cybersecurity detection platform for unidirectional IP traffic.
+
 
 It evaluates:
 
@@ -198,4 +199,4 @@ docs                         Architecture, Windows, database, UI notes
 - Website visibility requires an authorized proxy, DNS, or browser-security integration.
 - Arbitrary file-copy/download visibility requires endpoint or application-specific telemetry.
 - Decoys work only for routes protected by the controlled corporate-app gateway.
-- This is a hackathon prototype, not an EDR or SIEM replacement.
+- CyberBug is a focused detection platform, not a full EDR or SIEM replacement.
