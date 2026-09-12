@@ -11,7 +11,7 @@ Traffic × Behavior × Baseline × AI Detection × Risk Scoring
 
 The system observes, analyzes, detects, explains, and alerts — but never interferes with the protected network.
 
-## System design
+# System design
 
 ```text
 Protected Network (Servers, Applications, Network Devices)
