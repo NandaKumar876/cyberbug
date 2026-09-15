@@ -250,6 +250,18 @@ class AnalystFeedbackRecord(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
+class AttackStoryRecord(Base):
+    __tablename__ = "attack_story"
+    story_id: Mapped[str] = mapped_column(String(120), primary_key=True)
+    timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    host_id: Mapped[str] = mapped_column(String(120), index=True)
+    event_id: Mapped[str | None] = mapped_column(ForeignKey("network_flows.event_id"), index=True)
+    incident_id: Mapped[str | None] = mapped_column(ForeignKey("flow_incidents.incident_id"), index=True)
+    stage: Mapped[str] = mapped_column(String(100))
+    severity: Mapped[str] = mapped_column(String(20))
+    evidence: Mapped[str] = mapped_column(Text)
+
+
 class SimulationRunRecord(Base):
     __tablename__ = "simulation_runs"
     run_id: Mapped[str] = mapped_column(String(120), primary_key=True)
