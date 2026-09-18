@@ -1,4 +1,4 @@
-## CyberBug
+# CyberBug
 
 **CyberBug** — AI-driven cybersecurity detection platform for unidirectional IP traffic.
 
