@@ -2,6 +2,8 @@
 
 **CyberBug** — AI-driven cybersecurity detection platform for unidirectional IP traffic.
 
+This project is being developed for **Smart India Hackathon (SIH) 2026**.
+
 
 It evaluates:
 
